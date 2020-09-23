@@ -8,6 +8,12 @@ namespace mcpugo.CurrencyTest.Shared.Model
     {
         public string Base { get; set; }
         public DateTime Date { get; set; }
-        public IDictionary<string, float> Rates { get; set; }
+        public ICollection<CurrencyExchangeRateResponse> Rates { get; set; }
+    }
+
+    public class CurrencyExchangeRateResponse
+    {
+        public string Code { get; set; }
+        public float Rate { get; set; }
     }
 }

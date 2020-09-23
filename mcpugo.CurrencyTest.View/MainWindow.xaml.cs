@@ -30,6 +30,7 @@ namespace mcpugo.CurrencyTest.View
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = ViewModel;
             Loaded += LoadData;
         }
 

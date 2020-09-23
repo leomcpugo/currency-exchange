@@ -18,11 +18,16 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
             var requestUrl = $"https://api.ratesapi.io/api/latest?base{request.Base}";
             var responseString = await client.GetStringAsync(requestUrl);
             var typedResponse = JsonConvert.DeserializeObject<ApiCurrencyExchangeResponse>(responseString);
+
             return new CurrencyExchangeResponse
             {
                 Base = typedResponse.Base,
                 Date = typedResponse.Date,
-                Rates = typedResponse.Rates
+                Rates = typedResponse.Rates.Select(x => new CurrencyExchangeRateResponse
+                {
+                    Code = x.Key,
+                    Rate = x.Value
+                }).ToList()
             };
         }
 

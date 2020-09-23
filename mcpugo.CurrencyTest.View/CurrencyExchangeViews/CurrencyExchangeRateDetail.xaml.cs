@@ -25,6 +25,7 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         public CurrencyExchangeRateDetail()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
 
         public void LoadCurrencyExchange(CurrencyExchangeResponse selection)
