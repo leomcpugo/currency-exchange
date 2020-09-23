@@ -8,16 +8,28 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <ComboBox 
-            x:Name="cmbCurrencyList" 
-            DisplayMemberPath = "Code"
-            SelectedValuePath= "Code"
-            Text= "Choose a Currency"
-            ItemsSource="{Binding Path=CurrencyList}"
-            HorizontalAlignment="Left" Margin="53,14,0,0" VerticalAlignment="Top" Width="120"/>
+        <ListView
+            x:Name="lvwCurrencyList">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Code}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="lvwCurrencyList_PreviewMouseLeftButtonDown" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
         <CurrencyExchangeViews:CurrencyExchangeRateDetail 
-            x:Name="ctlCurrencyExchangeRateDetail" 
-            HorizontalAlignment="Left" Height="100" Margin="224,25,0,0" VerticalAlignment="Top" Width="477"/>
+            x:Name="ctlCurrencyExchangeRateDetail"
+            HorizontalAlignment="Stretch" Grid.Column="1" />
     </Grid>
 </Window>

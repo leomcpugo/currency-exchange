@@ -21,12 +21,13 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 
             return new CurrencyExchangeResponse
             {
-                Base = typedResponse.Base,
+                Code = typedResponse.Base,
                 Date = typedResponse.Date,
                 Rates = typedResponse.Rates.Select(x => new CurrencyExchangeRateResponse
                 {
                     Code = x.Key,
-                    Rate = x.Value
+                    Rate = x.Value,
+                    ConvertedAmount = x.Value
                 }).ToList()
             };
         }
@@ -35,7 +36,7 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
         {
             public string Base { get; set; }
             public DateTime Date { get; set; }
-            public IDictionary<string, float> Rates { get; set; }
+            public IDictionary<string, decimal> Rates { get; set; }
         }
     }
 }

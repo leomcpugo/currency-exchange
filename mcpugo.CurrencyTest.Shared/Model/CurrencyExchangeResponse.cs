@@ -6,7 +6,7 @@ namespace mcpugo.CurrencyTest.Shared.Model
 {
     public class CurrencyExchangeResponse
     {
-        public string Base { get; set; }
+        public string Code { get; set; }
         public DateTime Date { get; set; }
         public ICollection<CurrencyExchangeRateResponse> Rates { get; set; }
     }
@@ -14,6 +14,7 @@ namespace mcpugo.CurrencyTest.Shared.Model
     public class CurrencyExchangeRateResponse
     {
         public string Code { get; set; }
-        public float Rate { get; set; }
+        public decimal Rate { get; set; }
+        public decimal ConvertedAmount { get; set; }
     }
 }

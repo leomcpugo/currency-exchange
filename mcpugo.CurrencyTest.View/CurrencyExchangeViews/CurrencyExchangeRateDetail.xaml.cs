@@ -26,12 +26,29 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         {
             InitializeComponent();
             DataContext = ViewModel;
+            txtAmount.Text = "1";
+            txtAmount.TextChanged += txtAmountChanged;
         }
 
         public void LoadCurrencyExchange(CurrencyExchangeResponse selection)
         {
             ViewModel.CurrencyExchange = selection;
             lvwRateList.ItemsSource = selection.Rates;
+        }
+
+        private void txtAmountChanged(object sender, TextChangedEventArgs args)
+        {
+            var item = sender as TextBox;
+            if (item != null)
+            {
+                if (decimal.TryParse(item.Text, out decimal amount))
+                {
+                    foreach (var rate in ViewModel.CurrencyExchange.Rates)
+                    {
+                        rate.ConvertedAmount = rate.Rate * amount;
+                    }
+                }
+            }
         }
     }
 }

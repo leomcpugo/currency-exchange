@@ -36,16 +36,17 @@ namespace mcpugo.CurrencyTest.View
 
         void LoadData(object sender, RoutedEventArgs e)
         {
-            cmbCurrencyList.ItemsSource = new CurrencyService().GetCurrencyList();
-            cmbCurrencyList.SelectionChanged += OnCurrencySelection;
+            foreach (var item in new CurrencyService().GetCurrencyList()) ViewModel.CurrencyList.Add(item);
+            lvwCurrencyList.ItemsSource = ViewModel.CurrencyList;
         }
 
-        async void OnCurrencySelection(object sender, EventArgs e)
+        async void lvwCurrencyList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (cmbCurrencyList.SelectedItem != null)
+            var item = sender as ListViewItem;
+            if (item != null)
             {
-                var selectedCurrency = (CurrencyResponse)cmbCurrencyList.SelectedItem;
-                var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Base == selectedCurrency.Code);
+                var selectedCurrency = (CurrencyResponse)item.DataContext;
+                var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Code == selectedCurrency.Code);
 
                 if (selectedCurrencyExchange == null)
                 {
