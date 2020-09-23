@@ -1,6 +1,7 @@
 ﻿using mcpugo.CurrencyTest.Service.CurrencyExchange;
 using mcpugo.CurrencyTest.Shared.Model;
 using mcpugo.CurrencyTest.Shared.Request;
+using mcpugo.CurrencyTest.View.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,28 +24,43 @@ namespace mcpugo.CurrencyTest.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ICollection<CurrencyResponse> currencyList;
+        public MainViewModel ViewModel { get; private set; } = new MainViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = ViewModel;
             Loaded += LoadData;
         }
 
         void LoadData(object sender, RoutedEventArgs e)
         {
-            currencyList = new CurrencyService().GetCurrencyList();
-            cmbCurrencyList.ItemsSource = currencyList;
-            cmbCurrencyList.DisplayMemberPath = "Code";
-            cmbCurrencyList.SelectedValuePath = "Code";
-            cmbCurrencyList.Text = "Choose a Currency";
+            foreach (var item in new CurrencyService().GetCurrencyList())
+            {
+                ViewModel.CurrencyList.Add(item);
+            }
+
             cmbCurrencyList.SelectionChanged += OnCurrencySelection;
         }
 
-        void OnCurrencySelection(object sender, EventArgs e)
+        async void OnCurrencySelection(object sender, EventArgs e)
         {
             if (cmbCurrencyList.SelectedItem != null)
             {
+                var selectedCurrency = (CurrencyResponse)cmbCurrencyList.SelectedItem;
+                var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Base == selectedCurrency.Code);
 
+                if (selectedCurrencyExchange == null)
+                {
+                    selectedCurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(new CurrencyExchangeRequest
+                    {
+                        Base = selectedCurrency.Code
+                    });
+
+                    ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
+                }
+
+                ViewModel.CurrencyExchangeSelected = selectedCurrencyExchange;
             }
         }
     }

@@ -15,17 +15,14 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 
         public async Task<CurrencyExchangeResponse> GetExchangeRates(CurrencyExchangeRequest request)
         {
-            var responseString = await client.GetStringAsync("https://api.ratesapi.io/api/latest");
+            var requestUrl = $"https://api.ratesapi.io/api/latest?base{request.Base}";
+            var responseString = await client.GetStringAsync(requestUrl);
             var typedResponse = JsonConvert.DeserializeObject<ApiCurrencyExchangeResponse>(responseString);
             return new CurrencyExchangeResponse
             {
                 Base = typedResponse.Base,
                 Date = typedResponse.Date,
-                RateList = typedResponse.Rates.Select(rate => new CurrencyExchangeRate
-                {
-                    To = rate.Key,
-                    Rate = rate.Value
-                }).ToList()
+                Rates = typedResponse.Rates
             };
         }
 
