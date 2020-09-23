@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace mcpugo.CurrencyTest.View.ViewModel.CurrencyExchangeViews
+namespace mcpugo.CurrencyTest.Shared.Model
 {
     public class CurrencyExchangeRateDetailViewModel : BaseViewModel
     {

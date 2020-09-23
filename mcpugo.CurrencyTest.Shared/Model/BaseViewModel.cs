@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace mcpugo.CurrencyTest.View.ViewModel
+namespace mcpugo.CurrencyTest.Shared.Model
 {
     public class BaseViewModel
     {

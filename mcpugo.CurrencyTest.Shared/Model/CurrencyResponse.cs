@@ -4,13 +4,20 @@ using System.Text;
 
 namespace mcpugo.CurrencyTest.Shared.Model
 {
-    public class CurrencyResponse
+    public class CurrencyResponse : BaseViewModel
     {
-        public CurrencyResponse(string code)
+        private string code;
+        public string Code
         {
-            Code = code;
+            get => code;
+            set => Set(ref code, value);
         }
 
-        public string Code { get; private set; }
+        private string description;
+        public string Description
+        {
+            get => description;
+            set => Set(ref description, value);
+        }
     }
 }

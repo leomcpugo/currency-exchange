@@ -3,6 +3,7 @@ using mcpugo.CurrencyTest.Shared.Request;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 
         public async Task<CurrencyExchangeResponse> GetExchangeRates(CurrencyExchangeRequest request)
         {
-            var requestUrl = $"https://api.ratesapi.io/api/latest?base{request.Base}";
+            var requestUrl = $"https://api.ratesapi.io/api/latest?base={request.Base}";
             var responseString = await client.GetStringAsync(requestUrl);
             var typedResponse = JsonConvert.DeserializeObject<ApiCurrencyExchangeResponse>(responseString);
 
@@ -23,12 +24,13 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
             {
                 Code = typedResponse.Base,
                 Date = typedResponse.Date,
-                Rates = typedResponse.Rates.Select(x => new CurrencyExchangeRateResponse
-                {
-                    Code = x.Key,
-                    Rate = x.Value,
-                    ConvertedAmount = x.Value
-                }).ToList()
+                Rates = new ObservableCollection<CurrencyExchangeRateResponse>(
+                    typedResponse.Rates.Select(x => new CurrencyExchangeRateResponse
+                    {
+                        Code = x.Key,
+                        Rate = x.Value,
+                        ConvertedAmount = x.Value
+                    }))
             };
         }
 

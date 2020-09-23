@@ -1,12 +1,12 @@
 ﻿using mcpugo.CurrencyTest.Service.CurrencyExchange;
 using mcpugo.CurrencyTest.Shared.Model;
 using mcpugo.CurrencyTest.Shared.Request;
-using mcpugo.CurrencyTest.View.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,9 +34,9 @@ namespace mcpugo.CurrencyTest.View
             Loaded += LoadData;
         }
 
-        void LoadData(object sender, RoutedEventArgs e)
+        async void LoadData(object sender, RoutedEventArgs e)
         {
-            foreach (var item in new CurrencyService().GetCurrencyList()) ViewModel.CurrencyList.Add(item);
+            foreach (var item in await new CurrencyService().GetCurrencyList()) ViewModel.CurrencyList.Add(item);
             lvwCurrencyList.ItemsSource = ViewModel.CurrencyList;
         }
 
@@ -46,19 +46,27 @@ namespace mcpugo.CurrencyTest.View
             if (item != null)
             {
                 var selectedCurrency = (CurrencyResponse)item.DataContext;
-                var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Code == selectedCurrency.Code);
-
-                if (selectedCurrencyExchange == null)
+                try
                 {
-                    selectedCurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(new CurrencyExchangeRequest
+
+                    var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Code == selectedCurrency.Code);
+
+                    if (selectedCurrencyExchange == null)
                     {
-                        Base = selectedCurrency.Code
-                    });
+                        selectedCurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(new CurrencyExchangeRequest
+                        {
+                            Base = selectedCurrency.Code
+                        });
 
-                    ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
+                        ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
+                    }
+
+                    ctlCurrencyExchangeRateDetail.LoadCurrencyExchange(selectedCurrencyExchange);
                 }
-
-                ctlCurrencyExchangeRateDetail.LoadCurrencyExchange(selectedCurrencyExchange);
+                catch
+                {
+                    MessageBox.Show($"The currency rates for {selectedCurrency.Code} could not be loaded", "CEC APP", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

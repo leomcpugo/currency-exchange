@@ -6,22 +6,21 @@
         xmlns:CurrencyExchangeViews="clr-namespace:mcpugo.CurrencyTest.View.CurrencyExchangeViews" 
         x:Class="mcpugo.CurrencyTest.View.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="300" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <ListView
             x:Name="lvwCurrencyList">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Text="{Binding Code}"/>
-                    </WrapPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Code" Width="40" DisplayMemberBinding="{Binding Code}" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
+                </GridView>
+            </ListView.View>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="lvwCurrencyList_PreviewMouseLeftButtonDown" />

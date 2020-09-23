@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 {
     interface ICurrencyService
     {
-        ICollection<CurrencyResponse> GetCurrencyList();
+        Task<ICollection<CurrencyResponse>> GetCurrencyList();
     }
 }

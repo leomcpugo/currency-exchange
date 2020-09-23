@@ -9,10 +9,15 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
+            <RowDefinition Height="40" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBox x:Name="txtAmount" />
+        <TextBox 
+            x:Name="txtAmount" 
+            MaxLength="10"
+            TextAlignment="Right"
+            PreviewTextInput="NumberValidationTextBox" 
+            FontSize="20" />
         <ListView 
             x:Name="lvwRateList" Grid.Row="1">
             <ListView.ItemTemplate>
@@ -41,7 +46,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Label Content="{Binding Path=CurrencyExchangeSelected.Base}" HorizontalAlignment="Left" Margin="488,322,0,0" VerticalAlignment="Top"/>
-        
     </Grid>
 </UserControl>

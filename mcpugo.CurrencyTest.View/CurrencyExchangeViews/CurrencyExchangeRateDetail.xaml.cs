@@ -1,8 +1,8 @@
 ﻿using mcpugo.CurrencyTest.Shared.Model;
-using mcpugo.CurrencyTest.View.ViewModel.CurrencyExchangeViews;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -34,21 +34,34 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         {
             ViewModel.CurrencyExchange = selection;
             lvwRateList.ItemsSource = selection.Rates;
+            txtAmount.Text = "1";
+            UpdateRates();
         }
 
         private void txtAmountChanged(object sender, TextChangedEventArgs args)
         {
-            var item = sender as TextBox;
-            if (item != null)
+            if (sender as TextBox != null)
             {
-                if (decimal.TryParse(item.Text, out decimal amount))
+                UpdateRates();
+            }
+        }
+
+        private void UpdateRates()
+        {
+            if (decimal.TryParse(txtAmount.Text, out decimal amount))
+            {
+                foreach (var rate in ViewModel.CurrencyExchange.Rates)
                 {
-                    foreach (var rate in ViewModel.CurrencyExchange.Rates)
-                    {
-                        rate.ConvertedAmount = rate.Rate * amount;
-                    }
+                    rate.ConvertedAmount = rate.Rate * amount;
                 }
             }
+
+            lvwRateList.Items.Refresh();
+        }
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
