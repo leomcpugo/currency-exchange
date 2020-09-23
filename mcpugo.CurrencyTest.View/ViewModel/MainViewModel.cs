@@ -14,45 +14,21 @@ namespace mcpugo.CurrencyTest.View.ViewModel
         public CurrencyExchangeResponse CurrencyExchangeSelected
         {
             get => currencyExchangeSelected;
-            set
-            {
-                if (currencyExchangeSelected != value)
-                {
-                    currencyExchangeSelected = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => Set(ref currencyExchangeSelected, value);
         }
 
         private ObservableCollection<CurrencyResponse> currencyList = new ObservableCollection<CurrencyResponse>();
         public ObservableCollection<CurrencyResponse> CurrencyList
         {
             get => currencyList;
-            set
-            {
-                if (currencyList != value)
-                {
-                    currencyList = value;
-                    OnPropertyChanged();
-                }
-            }
+            set => Set(ref currencyList, value);
         }
 
         public ObservableCollection<CurrencyExchangeResponse> currencyExchangeList = new ObservableCollection<CurrencyExchangeResponse>();
         public ObservableCollection<CurrencyExchangeResponse> CurrencyExchangeList
         {
-            get
-            {
-                return currencyExchangeList;
-            }
-            set
-            {
-                if (currencyExchangeList != value)
-                {
-                    currencyExchangeList = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => currencyExchangeList;
+            set => Set(ref currencyExchangeList, value);
         }
     }
 }

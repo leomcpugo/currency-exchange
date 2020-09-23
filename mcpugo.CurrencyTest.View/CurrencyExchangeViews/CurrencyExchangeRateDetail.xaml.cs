@@ -1,4 +1,5 @@
 ﻿using mcpugo.CurrencyTest.Shared.Model;
+using mcpugo.CurrencyTest.View.ViewModel.CurrencyExchangeViews;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,9 +20,12 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
     /// </summary>
     public partial class CurrencyExchangeRateDetail : UserControl
     {
+        public CurrencyExchangeRateDetailViewModel ViewModel { get; private set; } = new CurrencyExchangeRateDetailViewModel();
+
         public CurrencyExchangeRateDetail()
         {
             InitializeComponent();
+            DataContext = ViewModel;
         }
 
         public static DependencyProperty CurrencyExchangeProperty =
@@ -29,7 +33,11 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         public CurrencyExchangeResponse CurrencyExchange
         {
             get { return (CurrencyExchangeResponse)GetValue(CurrencyExchangeProperty); }
-            set { SetValue(CurrencyExchangeProperty, value); }
+            set
+            {
+                SetValue(CurrencyExchangeProperty, value);
+                ViewModel.CurrencyExchange = value;
+            }
         }
     }
 }
