@@ -24,7 +24,7 @@ namespace mcpugo.CurrencyTest.View.ViewModel
             set => Set(ref currencyList, value);
         }
 
-        public ObservableCollection<CurrencyExchangeResponse> currencyExchangeList = new ObservableCollection<CurrencyExchangeResponse>();
+        private ObservableCollection<CurrencyExchangeResponse> currencyExchangeList = new ObservableCollection<CurrencyExchangeResponse>();
         public ObservableCollection<CurrencyExchangeResponse> CurrencyExchangeList
         {
             get => currencyExchangeList;

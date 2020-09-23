@@ -9,17 +9,15 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cmbCurrencyList" 
-                  DisplayMemberPath = "Code"
-                  SelectedValuePath= "Code"
-                  Text= "Choose a Currency"
-                  ItemsSource="{Binding Path=CurrencyList}"
-                  HorizontalAlignment="Left" Margin="53,14,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox 
+            x:Name="cmbCurrencyList" 
+            DisplayMemberPath = "Code"
+            SelectedValuePath= "Code"
+            Text= "Choose a Currency"
+            ItemsSource="{Binding Path=CurrencyList}"
+            HorizontalAlignment="Left" Margin="53,14,0,0" VerticalAlignment="Top" Width="120"/>
         <CurrencyExchangeViews:CurrencyExchangeRateDetail 
-            CurrencyExchange="{Binding Path=CurrencyExchangeSelected, Mode=OneWay}"
+            x:Name="ctlCurrencyExchangeRateDetail" 
             HorizontalAlignment="Left" Height="100" Margin="224,25,0,0" VerticalAlignment="Top" Width="477"/>
-
-
-
     </Grid>
 </Window>

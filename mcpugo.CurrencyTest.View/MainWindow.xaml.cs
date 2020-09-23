@@ -4,6 +4,7 @@ using mcpugo.CurrencyTest.Shared.Request;
 using mcpugo.CurrencyTest.View.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,17 +30,12 @@ namespace mcpugo.CurrencyTest.View
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = ViewModel;
             Loaded += LoadData;
         }
 
         void LoadData(object sender, RoutedEventArgs e)
         {
-            foreach (var item in new CurrencyService().GetCurrencyList())
-            {
-                ViewModel.CurrencyList.Add(item);
-            }
-
+            cmbCurrencyList.ItemsSource = new CurrencyService().GetCurrencyList();
             cmbCurrencyList.SelectionChanged += OnCurrencySelection;
         }
 
@@ -60,7 +56,7 @@ namespace mcpugo.CurrencyTest.View
                     ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
                 }
 
-                ViewModel.CurrencyExchangeSelected = selectedCurrencyExchange;
+                ctlCurrencyExchangeRateDetail.LoadCurrencyExchange(selectedCurrencyExchange);
             }
         }
     }

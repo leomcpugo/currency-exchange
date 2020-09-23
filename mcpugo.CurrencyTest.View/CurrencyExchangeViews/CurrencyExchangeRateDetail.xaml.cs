@@ -25,19 +25,12 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         public CurrencyExchangeRateDetail()
         {
             InitializeComponent();
-            DataContext = ViewModel;
         }
 
-        public static DependencyProperty CurrencyExchangeProperty =
-        DependencyProperty.Register("CurrencyExchange", typeof(CurrencyExchangeResponse), typeof(CurrencyExchangeRateDetail));
-        public CurrencyExchangeResponse CurrencyExchange
+        public void LoadCurrencyExchange(CurrencyExchangeResponse selection)
         {
-            get { return (CurrencyExchangeResponse)GetValue(CurrencyExchangeProperty); }
-            set
-            {
-                SetValue(CurrencyExchangeProperty, value);
-                ViewModel.CurrencyExchange = value;
-            }
+            ViewModel.CurrencyExchange = selection;
+            lvwRateList.ItemsSource = selection.Rates;
         }
     }
 }
