@@ -1,0 +1,14 @@
+﻿<Window x:Class="mcpugo.CurrencyTest.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mcpugo.CurrencyTest.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="224,278,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cmbCurrencyList" HorizontalAlignment="Left" Margin="338,217,0,0" VerticalAlignment="Top" Width="120"/>
+
+    </Grid>
+</Window>
