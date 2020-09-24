@@ -34,6 +34,7 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         {
             ViewModel.CurrencyExchange = selection;
             lvwRateList.ItemsSource = selection.Rates;
+            tblCurrencyCode.Text = selection.Code;
             txtAmount.Text = "1";
             UpdateRates();
         }
@@ -48,6 +49,8 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
 
         private void UpdateRates()
         {
+            if (ViewModel?.CurrencyExchange?.Rates == null) return;
+
             if (decimal.TryParse(txtAmount.Text, out decimal amount))
             {
                 foreach (var rate in ViewModel.CurrencyExchange.Rates)

@@ -12,13 +12,10 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 {
     public class CurrencyExchangeService : ServiceBase, ICurrencyExchangeService
     {
-        private static readonly HttpClient client = new HttpClient();
-
         public async Task<CurrencyExchangeResponse> GetExchangeRates(CurrencyExchangeRequest request)
         {
-            var requestUrl = $"https://api.ratesapi.io/api/latest?base={request.Base}";
-            var responseString = await client.GetStringAsync(requestUrl);
-            var typedResponse = JsonConvert.DeserializeObject<ApiCurrencyExchangeResponse>(responseString);
+            var requestUrl = $"https://api.frankfurter.app/latest?base={request.Base}";
+            var typedResponse = await HttpGetRequest<ApiCurrencyExchangeResponse>(requestUrl);
 
             return new CurrencyExchangeResponse
             {

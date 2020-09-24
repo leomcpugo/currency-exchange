@@ -9,15 +9,12 @@ using System.Threading.Tasks;
 
 namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 {
-    public class CurrencyService : ICurrencyService
+    public class CurrencyService : ServiceBase, ICurrencyService
     {
-        private static readonly HttpClient client = new HttpClient();
-
         public async Task<ICollection<CurrencyResponse>> GetCurrencyList()
         {
-            var requestUrl = $"https://openexchangerates.org/api/currencies.json";
-            var responseString = await client.GetStringAsync(requestUrl);
-            var typedResponse = JsonConvert.DeserializeObject<IDictionary<string, string>>(responseString);
+            var requestUrl = $"https://api.frankfurter.app/currencies";
+            var typedResponse = await HttpGetRequest<IDictionary<string, string>>(requestUrl);
 
             return typedResponse.Select(x => new CurrencyResponse
             {

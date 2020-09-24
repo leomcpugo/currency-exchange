@@ -36,7 +36,7 @@ namespace mcpugo.CurrencyTest.View
 
         async void LoadData(object sender, RoutedEventArgs e)
         {
-            foreach (var item in await new CurrencyService().GetCurrencyList()) ViewModel.CurrencyList.Add(item);
+            ViewModel.CurrencyList = new ObservableCollection<CurrencyResponse>(await new CurrencyService().GetCurrencyList());
             lvwCurrencyList.ItemsSource = ViewModel.CurrencyList;
         }
 
