@@ -26,25 +26,32 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="20" />
-                        </Grid.RowDefinitions>
-                        <WrapPanel Grid.Row="0">
-                            <TextBlock Text="{Binding ConvertedAmount}" FontSize="20"/>
-                            <TextBlock Text=" " FontSize="20"/>
-                            <TextBlock Text="{Binding Code}" FontSize="20"/>
-                        </WrapPanel>
-                        <WrapPanel Grid.Row="1">
-                            <TextBlock Text="1 " />
-                            <TextBlock Text="{Binding 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Images/FlagIcon.png" Height="40" Width="40"/>
+                        <Grid Grid.Column="1" Margin="20,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="20" />
+                            </Grid.RowDefinitions>
+                            <WrapPanel Grid.Row="0">
+                                <TextBlock Text="{Binding ConvertedAmount}" FontSize="20"/>
+                                <TextBlock Text=" " FontSize="20"/>
+                                <TextBlock Text="{Binding Code}" FontSize="20"/>
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="1">
+                                <TextBlock Text="1 " />
+                                <TextBlock Text="{Binding 
                             RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
                             Path=DataContext.CurrencyExchange.Code}" />
-                            <TextBlock Text=" IS " />
-                            <TextBlock Text="{Binding Rate}"/>
-                            <TextBlock Text=" " />
-                            <TextBlock Text="{Binding Code}"/>
-                        </WrapPanel>
+                                <TextBlock Text=" IS " />
+                                <TextBlock Text="{Binding Rate}"/>
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Code}"/>
+                            </WrapPanel>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
