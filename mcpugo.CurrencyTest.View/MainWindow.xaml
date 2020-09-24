@@ -24,6 +24,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
+                        <Image Source="/Images/FlagIcon.png" Height="10" Width="10"/>
+                        <TextBlock Text=" " />
                         <TextBlock Text="{Binding Code}" MinWidth="30"/>
                         <TextBlock Text=" " />
                         <TextBlock Text="{Binding Description}" />
