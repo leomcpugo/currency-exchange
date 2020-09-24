@@ -4,6 +4,9 @@ using System.Text;
 
 namespace mcpugo.CurrencyTest.Shared.Model
 {
+    /// <summary>
+    /// Response for a Currency Request
+    /// </summary>
     public class CurrencyResponse : BaseViewModel
     {
         private string code;

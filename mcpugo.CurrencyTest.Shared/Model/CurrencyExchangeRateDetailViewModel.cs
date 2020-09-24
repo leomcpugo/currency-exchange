@@ -5,6 +5,9 @@ using System.Text;
 
 namespace mcpugo.CurrencyTest.Shared.Model
 {
+    /// <summary>
+    /// View Model for the Currency Exchange Rate Detail
+    /// </summary>
     public class CurrencyExchangeRateDetailViewModel : BaseViewModel
     {
         CurrencyExchangeResponse currencyExchange;

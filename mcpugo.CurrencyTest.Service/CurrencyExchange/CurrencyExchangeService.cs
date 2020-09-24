@@ -1,5 +1,4 @@
 ﻿using mcpugo.CurrencyTest.Shared.Model;
-using mcpugo.CurrencyTest.Shared.Request;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,9 +11,9 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 {
     public class CurrencyExchangeService : ServiceBase, ICurrencyExchangeService
     {
-        public async Task<CurrencyExchangeResponse> GetExchangeRates(CurrencyExchangeRequest request)
+        public async Task<CurrencyExchangeResponse> GetExchangeRates(string code)
         {
-            var requestUrl = $"https://api.frankfurter.app/latest?base={request.Base}";
+            var requestUrl = $"https://api.frankfurter.app/latest?base={code}";
             var typedResponse = await HttpGetRequest<ApiCurrencyExchangeResponse>(requestUrl);
 
             return new CurrencyExchangeResponse

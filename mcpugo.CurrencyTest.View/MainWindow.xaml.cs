@@ -1,22 +1,10 @@
 ﻿using mcpugo.CurrencyTest.Service.CurrencyExchange;
 using mcpugo.CurrencyTest.Shared.Model;
-using mcpugo.CurrencyTest.Shared.Request;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace mcpugo.CurrencyTest.View
 {
@@ -34,10 +22,15 @@ namespace mcpugo.CurrencyTest.View
             Loaded += LoadData;
         }
 
+        /// <summary>
+        /// Loading of the View Data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void LoadData(object sender, RoutedEventArgs e)
         {
             ViewModel.CurrencyList = new ObservableCollection<CurrencyResponse>(await new CurrencyService().GetCurrencyList());
-            lvwCurrencyList.ItemsSource = ViewModel.CurrencyList;
+            OrderCurrencyList();
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.CurrencyCodeLastUsed))
             {
@@ -45,24 +38,16 @@ namespace mcpugo.CurrencyTest.View
             }
         }
 
+        /// <summary>
+        /// Select and load the Rates for the Currency selected
+        /// </summary>
+        /// <param name="code">The code of the currency</param>
         private async void SelectCurrency(string code)
         {
             try
             {
-                var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Code == code);
-
-                if (selectedCurrencyExchange == null)
-                {
-                    Properties.Settings.Default.CurrencyCodeLastUsed = code;
-                    selectedCurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(new CurrencyExchangeRequest
-                    {
-                        Base = code
-                    });
-
-                    ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
-                }
-
-                ctlCurrencyExchangeRateDetail.LoadCurrencyExchange(selectedCurrencyExchange);
+                ViewModel.CurrencyExchangeSelected = await new CurrencyExchangeService().GetExchangeRates(code); ;
+                ctlCurrencyExchangeRateDetail.SetCurrencyExchange(ViewModel.CurrencyExchangeSelected);
             }
             catch
             {
@@ -70,6 +55,27 @@ namespace mcpugo.CurrencyTest.View
             }
         }
 
+        /// <summary>
+        /// Order the currency list using the Favorite feature
+        /// </summary>
+        void OrderCurrencyList()
+        {
+            var favoriteCurrencyList = Properties.Settings.Default.CurrencyFavoriteList.Split(',').ToList();
+
+            lvwCurrencyList.ItemsSource = ViewModel.CurrencyList
+                .OrderByDescending(x => UserPreferences.UserPreferences.IsFavorite(x.Code))
+                .ThenBy(x => x.Code)
+                .ToList();
+        }
+
+
+        // UI Events
+
+        /// <summary>
+        /// Helper used to store the last checked currency to use it as a default on next startup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void lvwCurrencyList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = sender as ListViewItem;
@@ -79,6 +85,22 @@ namespace mcpugo.CurrencyTest.View
                 SelectCurrency(code);
                 Properties.Settings.Default.CurrencyCodeLastUsed = code;
                 Properties.Settings.Default.Save();
+            }
+        }
+
+        /// <summary>
+        /// Helper method that adds or removes a Favorite
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void addRemoveFavorite_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuItem)?.DataContext as CurrencyResponse;
+            if (item != null)
+            {
+                UserPreferences.UserPreferences.AddRemoveFromFavorites(item.Code);
+                OrderCurrencyList();
+                ctlCurrencyExchangeRateDetail.SetCurrencyExchange(ViewModel.CurrencyExchangeSelected, false);
             }
         }
     }

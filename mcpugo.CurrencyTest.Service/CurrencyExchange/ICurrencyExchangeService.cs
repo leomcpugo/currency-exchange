@@ -1,5 +1,4 @@
 ﻿using mcpugo.CurrencyTest.Shared.Model;
-using mcpugo.CurrencyTest.Shared.Request;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 {
+    /// <summary>
+    /// Service that handles the Currency Exchange
+    /// </summary>
     interface ICurrencyExchangeService
     {
-        public Task<CurrencyExchangeResponse> GetExchangeRates(CurrencyExchangeRequest request);
+        /// <summary>
+        /// Gets the Exchange Rates for a Currency
+        /// </summary>
+        /// <param name="code">Code of the Currency</param>
+        /// <returns></returns>
+        public Task<CurrencyExchangeResponse> GetExchangeRates(string code);
     }
 }

@@ -34,5 +34,17 @@ namespace mcpugo.CurrencyTest.View.Properties {
                 this["CurrencyCodeLastUsed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CurrencyFavoriteList {
+            get {
+                return ((string)(this["CurrencyFavoriteList"]));
+            }
+            set {
+                this["CurrencyFavoriteList"] = value;
+            }
+        }
     }
 }

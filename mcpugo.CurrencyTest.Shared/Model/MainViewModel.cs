@@ -23,12 +23,5 @@ namespace mcpugo.CurrencyTest.Shared.Model
             get => currencyList;
             set => Set(ref currencyList, value);
         }
-
-        private ObservableCollection<CurrencyExchangeResponse> currencyExchangeList = new ObservableCollection<CurrencyExchangeResponse>();
-        public ObservableCollection<CurrencyExchangeResponse> CurrencyExchangeList
-        {
-            get => currencyExchangeList;
-            set => Set(ref currencyExchangeList, value);
-        }
     }
 }

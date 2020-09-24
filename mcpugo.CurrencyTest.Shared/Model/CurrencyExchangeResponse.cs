@@ -5,6 +5,9 @@ using System.Text;
 
 namespace mcpugo.CurrencyTest.Shared.Model
 {
+    /// <summary>
+    /// Response for a Currency Exchange Request
+    /// </summary>
     public class CurrencyExchangeResponse : BaseViewModel
     {
         private string code;
@@ -29,6 +32,9 @@ namespace mcpugo.CurrencyTest.Shared.Model
         }
     }
 
+    /// <summary>
+    /// Response for a Currency Exchange Request
+    /// </summary>
     public class CurrencyExchangeRateResponse : BaseViewModel
     {
         private string code;

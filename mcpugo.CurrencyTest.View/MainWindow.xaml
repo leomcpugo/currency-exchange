@@ -25,9 +25,15 @@
                     <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
                 </GridView>
             </ListView.View>
+            <ListView.Resources>
+                <ContextMenu x:Key="ItemContextMenu">
+                    <MenuItem Header="Add/Remove from favorites" Click="addRemoveFavorite_Click" Background="WhiteSmoke" />
+                </ContextMenu>
+            </ListView.Resources>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="lvwCurrencyList_PreviewMouseLeftButtonDown" />
+                    <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
