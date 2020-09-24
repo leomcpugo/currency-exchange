@@ -38,35 +38,47 @@ namespace mcpugo.CurrencyTest.View
         {
             ViewModel.CurrencyList = new ObservableCollection<CurrencyResponse>(await new CurrencyService().GetCurrencyList());
             lvwCurrencyList.ItemsSource = ViewModel.CurrencyList;
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.CurrencyCodeLastUsed))
+            {
+                SelectCurrency(Properties.Settings.Default.CurrencyCodeLastUsed);
+            }
         }
 
-        async void lvwCurrencyList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void SelectCurrency(string code)
+        {
+            try
+            {
+                var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Code == code);
+
+                if (selectedCurrencyExchange == null)
+                {
+                    Properties.Settings.Default.CurrencyCodeLastUsed = code;
+                    selectedCurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(new CurrencyExchangeRequest
+                    {
+                        Base = code
+                    });
+
+                    ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
+                }
+
+                ctlCurrencyExchangeRateDetail.LoadCurrencyExchange(selectedCurrencyExchange);
+            }
+            catch
+            {
+                MessageBox.Show($"The currency rates for {code} could not be loaded", "CEC APP", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        void lvwCurrencyList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = sender as ListViewItem;
             if (item != null)
             {
-                var selectedCurrency = (CurrencyResponse)item.DataContext;
-                try
-                {
-
-                    var selectedCurrencyExchange = ViewModel.CurrencyExchangeList.FirstOrDefault(x => x.Code == selectedCurrency.Code);
-
-                    if (selectedCurrencyExchange == null)
-                    {
-                        selectedCurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(new CurrencyExchangeRequest
-                        {
-                            Base = selectedCurrency.Code
-                        });
-
-                        ViewModel.CurrencyExchangeList.Add(selectedCurrencyExchange);
-                    }
-
-                    ctlCurrencyExchangeRateDetail.LoadCurrencyExchange(selectedCurrencyExchange);
-                }
-                catch
-                {
-                    MessageBox.Show($"The currency rates for {selectedCurrency.Code} could not be loaded", "CEC APP", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                var code = ((CurrencyResponse)item.DataContext).Code;
+                SelectCurrency(code);
+                Properties.Settings.Default.CurrencyCodeLastUsed = code;
+                Properties.Settings.Default.Save();
             }
         }
     }
