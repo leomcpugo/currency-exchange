@@ -15,6 +15,6 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
         /// Gets the Currency list
         /// </summary>
         /// <returns></returns>
-        Task<ICollection<CurrencyResponse>> GetCurrencyList();
+        Task<ICollection<CurrencyModel>> GetCurrencyList();
     }
 }

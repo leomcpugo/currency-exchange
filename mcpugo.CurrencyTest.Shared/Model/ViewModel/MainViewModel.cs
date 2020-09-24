@@ -6,19 +6,19 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace mcpugo.CurrencyTest.Shared.Model
+namespace mcpugo.CurrencyTest.Shared.ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
-        private CurrencyExchangeResponse currencyExchangeSelected;
-        public CurrencyExchangeResponse CurrencyExchangeSelected
+        private CurrencyExchangeModel currencyExchangeSelected;
+        public CurrencyExchangeModel CurrencyExchangeSelected
         {
             get => currencyExchangeSelected;
             set => Set(ref currencyExchangeSelected, value);
         }
 
-        private ObservableCollection<CurrencyResponse> currencyList = new ObservableCollection<CurrencyResponse>();
-        public ObservableCollection<CurrencyResponse> CurrencyList
+        private ObservableCollection<CurrencyModel> currencyList = new ObservableCollection<CurrencyModel>();
+        public ObservableCollection<CurrencyModel> CurrencyList
         {
             get => currencyList;
             set => Set(ref currencyList, value);

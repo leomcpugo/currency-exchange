@@ -1,5 +1,6 @@
 ﻿using mcpugo.CurrencyTest.Service.CurrencyExchange;
 using mcpugo.CurrencyTest.Shared.Model;
+using mcpugo.CurrencyTest.Shared.ViewModel;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace mcpugo.CurrencyTest.View
         /// <param name="e"></param>
         async void LoadData(object sender, RoutedEventArgs e)
         {
-            ViewModel.CurrencyList = new ObservableCollection<CurrencyResponse>(await new CurrencyService().GetCurrencyList());
+            ViewModel.CurrencyList = new ObservableCollection<CurrencyModel>(await new CurrencyService().GetCurrencyList());
             OrderCurrencyList();
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.CurrencyCodeLastUsed))
@@ -81,7 +82,7 @@ namespace mcpugo.CurrencyTest.View
             var item = sender as ListViewItem;
             if (item != null)
             {
-                var code = ((CurrencyResponse)item.DataContext).Code;
+                var code = ((CurrencyModel)item.DataContext).Code;
                 SelectCurrency(code);
                 Properties.Settings.Default.CurrencyCodeLastUsed = code;
                 Properties.Settings.Default.Save();
@@ -95,7 +96,7 @@ namespace mcpugo.CurrencyTest.View
         /// <param name="e"></param>
         void addRemoveFavorite_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as MenuItem)?.DataContext as CurrencyResponse;
+            var item = (sender as MenuItem)?.DataContext as CurrencyModel;
             if (item != null)
             {
                 UserPreferences.UserPreferences.AddRemoveFromFavorites(item.Code);

@@ -11,12 +11,12 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
 {
     public class CurrencyExchangeService : ServiceBase, ICurrencyExchangeService
     {
-        public async Task<CurrencyExchangeResponse> GetExchangeRates(string code)
+        public async Task<CurrencyExchangeModel> GetExchangeRates(string code)
         {
             var requestUrl = $"https://api.frankfurter.app/latest?base={code}";
             var typedResponse = await HttpGetRequest<ApiCurrencyExchangeResponse>(requestUrl);
 
-            return new CurrencyExchangeResponse
+            return new CurrencyExchangeModel
             {
                 Code = typedResponse.Base,
                 Date = typedResponse.Date,

@@ -1,4 +1,5 @@
 ﻿using mcpugo.CurrencyTest.Shared.Model;
+using mcpugo.CurrencyTest.Shared.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
         /// </summary>
         /// <param name="selection">The Curreny Exchange Rate</param>
         /// <param name="resetAmount">Parameter that determines if the amount should be reseted</param>
-        public void SetCurrencyExchange(CurrencyExchangeResponse selection, bool resetAmount = true)
+        public void SetCurrencyExchange(CurrencyExchangeModel selection, bool resetAmount = true)
         {
             ViewModel.CurrencyExchange = selection;
             tblCurrencyCode.Text = selection.Code;

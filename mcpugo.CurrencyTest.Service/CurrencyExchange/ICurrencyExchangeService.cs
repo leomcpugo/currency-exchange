@@ -16,6 +16,6 @@ namespace mcpugo.CurrencyTest.Service.CurrencyExchange
         /// </summary>
         /// <param name="code">Code of the Currency</param>
         /// <returns></returns>
-        public Task<CurrencyExchangeResponse> GetExchangeRates(string code);
+        public Task<CurrencyExchangeModel> GetExchangeRates(string code);
     }
 }

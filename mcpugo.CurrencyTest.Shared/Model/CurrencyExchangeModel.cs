@@ -8,7 +8,7 @@ namespace mcpugo.CurrencyTest.Shared.Model
     /// <summary>
     /// Response for a Currency Exchange Request
     /// </summary>
-    public class CurrencyExchangeResponse : BaseViewModel
+    public class CurrencyExchangeModel : BaseViewModel
     {
         private string code;
         public string Code
