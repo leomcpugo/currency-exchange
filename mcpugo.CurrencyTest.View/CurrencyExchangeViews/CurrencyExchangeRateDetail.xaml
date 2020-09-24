@@ -20,7 +20,9 @@
             FontSize="20" Margin="0,0,90,0" />
         <TextBlock x:Name="tblCurrencyCode" HorizontalAlignment="Right" Width="70" FontSize="20"/>
         <ListView 
-            x:Name="lvwRateList" Grid.Row="1">
+            x:Name="lvwRateList" 
+            ItemsSource="{Binding CurrencyExchange.Rates}"
+            Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>

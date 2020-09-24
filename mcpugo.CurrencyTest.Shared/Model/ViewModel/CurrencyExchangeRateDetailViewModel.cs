@@ -10,6 +10,13 @@ namespace mcpugo.CurrencyTest.Shared.ViewModel
     /// </summary>
     public class CurrencyExchangeRateDetailViewModel : BaseViewModel
     {
+        string amount;
+        public string Amount
+        {
+            get => amount;
+            set => Set(ref amount, value);
+        }
+
         CurrencyExchangeModel currencyExchange;
         public CurrencyExchangeModel CurrencyExchange
         {

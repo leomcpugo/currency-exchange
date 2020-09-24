@@ -1,6 +1,8 @@
 ﻿using mcpugo.CurrencyTest.Service.CurrencyExchange;
 using mcpugo.CurrencyTest.Shared.Model;
 using mcpugo.CurrencyTest.Shared.ViewModel;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -30,8 +32,7 @@ namespace mcpugo.CurrencyTest.View
         /// <param name="e"></param>
         async void LoadData(object sender, RoutedEventArgs e)
         {
-            ViewModel.CurrencyList = new ObservableCollection<CurrencyModel>(await new CurrencyService().GetCurrencyList());
-            OrderCurrencyList();
+            OrderCurrencyList(await new CurrencyService().GetCurrencyList());
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.CurrencyCodeLastUsed))
             {
@@ -47,8 +48,7 @@ namespace mcpugo.CurrencyTest.View
         {
             try
             {
-                ViewModel.CurrencyExchangeSelected = await new CurrencyExchangeService().GetExchangeRates(code); ;
-                ctlCurrencyExchangeRateDetail.SetCurrencyExchange(ViewModel.CurrencyExchangeSelected);
+                ViewModel.CurrencyExchangeRateDetail.CurrencyExchange = await new CurrencyExchangeService().GetExchangeRates(code);
             }
             catch
             {
@@ -59,14 +59,15 @@ namespace mcpugo.CurrencyTest.View
         /// <summary>
         /// Order the currency list using the Favorite feature
         /// </summary>
-        void OrderCurrencyList()
+        void OrderCurrencyList(ICollection<CurrencyModel> list)
         {
-            var favoriteCurrencyList = Properties.Settings.Default.CurrencyFavoriteList.Split(',').ToList();
+            var orderedList = list
+                 .OrderByDescending(x => UserPreferences.UserPreferences.IsFavorite(x.Code))
+                 .ThenBy(x => x.Code)
+                 .ToList();
 
-            lvwCurrencyList.ItemsSource = ViewModel.CurrencyList
-                .OrderByDescending(x => UserPreferences.UserPreferences.IsFavorite(x.Code))
-                .ThenBy(x => x.Code)
-                .ToList();
+            ViewModel.CurrencyList.Clear();
+            foreach (var item in orderedList) ViewModel.CurrencyList.Add(item);
         }
 
 
@@ -100,8 +101,7 @@ namespace mcpugo.CurrencyTest.View
             if (item != null)
             {
                 UserPreferences.UserPreferences.AddRemoveFromFavorites(item.Code);
-                OrderCurrencyList();
-                ctlCurrencyExchangeRateDetail.SetCurrencyExchange(ViewModel.CurrencyExchangeSelected, false);
+                OrderCurrencyList(ViewModel.CurrencyList);
             }
         }
     }

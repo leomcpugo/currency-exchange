@@ -23,5 +23,13 @@ namespace mcpugo.CurrencyTest.Shared.ViewModel
             get => currencyList;
             set => Set(ref currencyList, value);
         }
+
+        // CHILDS
+        private CurrencyExchangeRateDetailViewModel currencyExchangeRateDetail = new CurrencyExchangeRateDetailViewModel();
+        public CurrencyExchangeRateDetailViewModel CurrencyExchangeRateDetail
+        {
+            get => currencyExchangeRateDetail;
+            set => Set(ref currencyExchangeRateDetail, value);
+        }
     }
 }

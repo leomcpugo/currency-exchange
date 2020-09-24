@@ -22,33 +22,42 @@ namespace mcpugo.CurrencyTest.View.CurrencyExchangeViews
     /// </summary>
     public partial class CurrencyExchangeRateDetail : UserControl
     {
-        public CurrencyExchangeRateDetailViewModel ViewModel { get; private set; } = new CurrencyExchangeRateDetailViewModel();
+        public CurrencyExchangeRateDetailViewModel ViewModel { get { return DataContext as CurrencyExchangeRateDetailViewModel; } }
 
         public CurrencyExchangeRateDetail()
         {
             InitializeComponent();
-            DataContext = ViewModel;
+            Loaded += LoadData;
+        }
+
+        /// <summary>
+        /// Loading of the View Data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void LoadData(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             txtAmount.Text = "1";
             txtAmount.TextChanged += txtAmount_Changed;
         }
 
-        /// <summary>
-        /// Sets a new Currency Exchange Rate
-        /// </summary>
-        /// <param name="selection">The Curreny Exchange Rate</param>
-        /// <param name="resetAmount">Parameter that determines if the amount should be reseted</param>
-        public void SetCurrencyExchange(CurrencyExchangeModel selection, bool resetAmount = true)
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            ViewModel.CurrencyExchange = selection;
-            tblCurrencyCode.Text = selection.Code;
-            if (resetAmount) txtAmount.Text = "1";
+            if (e.PropertyName == nameof(CurrencyExchangeRateDetailViewModel.CurrencyExchange))
+            {
+                if (ViewModel?.CurrencyExchange?.Code == null) return;
 
-            lvwRateList.ItemsSource = selection.Rates
-                .OrderByDescending(x => UserPreferences.UserPreferences.IsFavorite(x.Code))
-                .ThenBy(x => x.Code)
-                .ToList();
+                tblCurrencyCode.Text = ViewModel.CurrencyExchange.Code;
+                txtAmount.Text = "1";
 
-            UpdateRates();
+                lvwRateList.ItemsSource = ViewModel.CurrencyExchange.Rates
+                    .OrderByDescending(x => UserPreferences.UserPreferences.IsFavorite(x.Code))
+                    .ThenBy(x => x.Code)
+                    .ToList();
+
+                UpdateRates();
+            }
         }
 
 

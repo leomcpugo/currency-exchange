@@ -18,13 +18,18 @@
         </Grid.RowDefinitions>
         <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <ListView
-            x:Name="lvwCurrencyList">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Code" Width="40" DisplayMemberBinding="{Binding Code}" />
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
-                </GridView>
-            </ListView.View>
+            x:Name="lvwCurrencyList"
+            ItemsSource="{Binding Path=CurrencyList}"
+            SelectedItem="{Binding Path=CurrencyExchangeRateDetail.CurrencyExchange}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Code}" MinWidth="30"/>
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding Description}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <ListView.Resources>
                 <ContextMenu x:Key="ItemContextMenu">
                     <MenuItem Header="Add/Remove from favorites" Click="addRemoveFavorite_Click" Background="WhiteSmoke" />
@@ -38,6 +43,7 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <CurrencyExchangeViews:CurrencyExchangeRateDetail 
+            DataContext="{Binding CurrencyExchangeRateDetail}"
             x:Name="ctlCurrencyExchangeRateDetail"
             HorizontalAlignment="Stretch" Grid.Column="1" />
         <StatusBar Grid.Row="1" Grid.ColumnSpan="2" >
